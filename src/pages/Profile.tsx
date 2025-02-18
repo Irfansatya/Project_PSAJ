@@ -1,4 +1,6 @@
 import { createSignal, onMount } from "solid-js";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Profile = () => {
   const [profileData, setProfileData] = createSignal({
@@ -68,7 +70,8 @@ const Profile = () => {
 
   return (
     <div class="p-6 px-10">
-      <div class="flex justify-between items-center mb-6">
+      <Navbar/>
+      <div class="flex justify-between pt-10 items-center mb-6">
         <h1 class="font-bold">Pengaturan</h1>
         <div class="text-gray-500 text-sm">
           <span class="mr-2">Dashboard</span> /{" "}
@@ -176,6 +179,7 @@ const Profile = () => {
           </div>
         </div>
       )}
+      <Footer/>
     </div>
   );
 };

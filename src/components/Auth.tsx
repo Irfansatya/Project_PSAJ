@@ -11,7 +11,7 @@ const Auth = (props) => {
 
   return (
     <div
-      class={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity ${
+      class={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity ${
         props.isOpen() ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
     >
@@ -21,11 +21,11 @@ const Auth = (props) => {
           <h2 class="text-2xl font-semibold text-center mb-8">Masuk ke <span class="text-red-500">jagoanKos</span></h2>
           <p class="mb-2">Masuk sebagai...</p>
           <div class="flex flex-col gap-3">
-            <button class="w-full flex items-center gap-3 p-3 border rounded-lg bg-white hover:bg-[#FA4040]" onClick={() => setUserType("pencari")}> 
+            <button class="w-full flex items-center gap-3 p-3 border rounded-lg bg-white hover:bg-[#FA4040] cursor-pointer" onClick={() => setUserType("pencari")}> 
               <img src="src/assets/pencarikos.png" class="w-16 h-auto" />
               <span>Pencari Kos</span>
             </button>
-            <button class="w-full flex items-center gap-3 p-3 border rounded-lg bg-white hover:bg-[#FA4040]" onClick={() => setUserType("pemilik")}> 
+            <button class="w-full flex items-center gap-3 p-3 border rounded-lg bg-white hover:bg-[#FA4040] cursor-pointer" onClick={() => setUserType("pemilik")}> 
               <img src="src/assets/pemilikkos.png" class="w-16 h-auto" />
               <span>Pemilik Kos</span>
             </button>
@@ -71,7 +71,7 @@ const Auth = (props) => {
                 </button>
               </div>
               <div class="text-right mt-1">
-                <a href="#" class="text-red-500 text-sm font-semibold">Lupa Password?</a>
+                <a href="#" class="text-[#F80000] hover:text-[#FA4040] text-sm font-semibold">Lupa Password?</a>
               </div>
             </div>
           )}
@@ -116,7 +116,7 @@ const Auth = (props) => {
 
           <p class="text-sm text-center mt-3">
             {isRegister() ? "Sudah punya akun? " : "Belum punya akun? "}
-            <a href="#" class="text-blue-500 font-semibold" onClick={() => setIsRegister(!isRegister())}>
+            <a href="#" class="text-[#F80000] hover:text-[#FA4040] font-semibold" onClick={() => setIsRegister(!isRegister())}>
               {isRegister() ? "Login" : "Daftar"}
             </a>
           </p>
