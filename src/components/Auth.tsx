@@ -8,6 +8,49 @@ const Auth = (props) => {
   const [userType, setUserType] = createSignal(null);
   const [loginEmail, setLoginEmail] = createSignal("");
   const [registerEmail, setRegisterEmail] = createSignal("");
+  const [loginPassword, setLoginPassword] = createSignal("");
+  const [registerPassword, setRegisterPassword] = createSignal("");
+  const [confirmPassword, setConfirmPassword] = createSignal("");
+  const [rememberMe, setRememberMe] = createSignal(false);
+
+
+  const handleLogin = () => {
+    console.log("Login dengan", loginEmail(), loginPassword());
+  
+    // Simulasi user login sukses (karena belum ada backend)
+    const userData = {
+      email: loginEmail(),
+      name: "User Demo", // Bisa diganti sesuai backend nanti
+    };
+  
+    // Simpan ke localStorage
+    localStorage.setItem("user", JSON.stringify(userData));
+  
+    // Panggil function dari Navbar agar state user berubah
+    if (props.onLoginSuccess) {
+      props.onLoginSuccess(userData);
+    }
+  
+    // Tutup modal setelah login sukses
+    props.onClose();
+  };
+
+  const handleRegister = () => {
+    if (registerPassword() !== confirmPassword()) {
+      alert("Password tidak cocok!");
+      return;
+    }
+  
+    console.log("Registrasi dengan", registerEmail(), registerPassword());
+  
+    // Simpan email yang baru didaftarkan ke localStorage (opsional)
+    localStorage.setItem("registeredEmail", registerEmail());
+  
+    // Setelah register, alihkan ke mode login
+    setIsRegister(false);
+    setLoginEmail(registerEmail()); // Isi otomatis email di form login
+  };
+  
 
   return (
     <div
@@ -21,11 +64,11 @@ const Auth = (props) => {
           <h2 class="text-2xl font-semibold text-center mb-8">Masuk ke <span class="text-red-500">jagoanKos</span></h2>
           <p class="mb-2">Masuk sebagai...</p>
           <div class="flex flex-col gap-3">
-            <button class="w-full flex items-center gap-3 p-3 border rounded-lg bg-white hover:bg-[#FA4040] cursor-pointer" onClick={() => setUserType("pencari")}> 
+            <button class="w-full flex items-center gap-3 p-3 border rounded-lg  bg-white transition-colors duration-300 hover:bg-[#FA4040] cursor-pointer" onClick={() => setUserType("pencari")}>
               <img src="src/assets/pencarikos.png" class="w-16 h-auto" />
               <span>Pencari Kos</span>
             </button>
-            <button class="w-full flex items-center gap-3 p-3 border rounded-lg bg-white hover:bg-[#FA4040] cursor-pointer" onClick={() => setUserType("pemilik")}> 
+            <button class="w-full flex items-center gap-3 p-3 border rounded-lg bg-white transition-colors duration-300 hover:bg-[#FA4040] cursor-pointer" onClick={() => setUserType("pemilik")}>
               <img src="src/assets/pemilikkos.png" class="w-16 h-auto" />
               <span>Pemilik Kos</span>
             </button>
@@ -60,48 +103,46 @@ const Auth = (props) => {
 
           {!isRegister() && (
             <div class="mb-3">
-              <div class="relative">
-                <input 
-                  type={showLoginPassword() ? "text" : "password"} 
-                  placeholder="Masukkan Password Anda" 
-                  class="w-full px-3 py-2 border rounded bg-[#EAEFFA] pr-10" 
-                />
-                <button type="button" class="absolute right-3 top-2 text-gray-500" onClick={() => setShowLoginPassword(!showLoginPassword())}>
-                  <img src={showLoginPassword() ? "src/assets/eye.png" : "src/assets/eye-slash.png"} class="w-5 h-5" />
-                </button>
-              </div>
+              <input 
+                type="password" 
+                placeholder="Masukkan Password Anda" 
+                class="w-full px-3 py-2 border rounded bg-[#EAEFFA]"
+                value={loginPassword()}
+                onInput={(e) => setLoginPassword(e.target.value)}
+              />
               <div class="text-right mt-1">
-                <a href="#" class="text-[#F80000] hover:text-[#FA4040] text-sm font-semibold">Lupa Password?</a>
+                <a href="#" class="text-[#F80000] hover:text-[#FA4040] transition-colors duration-300 text-sm font-semibold">Lupa Password?</a>
               </div>
             </div>
           )}
 
           {isRegister() && (
             <>
-              <div class="mb-3 relative">
+              <div class="mb-3">
                 <input 
-                  type={showRegisterPassword() ? "text" : "password"} 
+                  type="password" 
                   placeholder="Masukkan Password Anda" 
-                  class="w-full px-3 py-2 border rounded bg-[#EAEFFA] pr-10" 
+                  class="w-full px-3 py-2 border rounded bg-[#EAEFFA]"
+                  value={registerPassword()}
+                  onInput={(e) => setRegisterPassword(e.target.value)}
                 />
-                <button type="button" class="absolute right-3 top-2 text-gray-500" onClick={() => setShowRegisterPassword(!showRegisterPassword())}>
-                  <img src={showRegisterPassword() ? "src/assets/eye.png" : "src/assets/eye-slash.png"} class="w-5 h-5" />
-                </button>
               </div>
-              <div class="mb-3 relative">
+              <div class="mb-3">
                 <input 
-                  type={showConfirmPassword() ? "text" : "password"} 
+                  type="password" 
                   placeholder="Konfirmasi Password" 
-                  class="w-full px-3 py-2 border rounded bg-[#EAEFFA] pr-10" 
+                  class="w-full px-3 py-2 border rounded bg-[#EAEFFA]"
+                  value={confirmPassword()}
+                  onInput={(e) => setConfirmPassword(e.target.value)}
                 />
-                <button type="button" class="absolute right-3 top-2 text-gray-500" onClick={() => setShowConfirmPassword(!showConfirmPassword())}>
-                  <img src={showConfirmPassword() ? "src/assets/eye.png" : "src/assets/eye-slash.png"} class="w-5 h-5" />
-                </button>
               </div>
             </>
           )}
 
-          <button class="w-full bg-[#F80000] hover:bg-[#FA4040] text-white py-2 rounded-md text-lg font-semibold mb-3">
+          <button 
+            class="w-full bg-[#F80000] hover:bg-[#FA4040] transition-colors duration-300 text-white py-2 rounded-md text-lg font-semibold mb-3"
+            onClick={isRegister() ? handleRegister : handleLogin}
+          >
             {isRegister() ? "Daftar" : "Confirm"}
           </button>
 
@@ -116,7 +157,7 @@ const Auth = (props) => {
 
           <p class="text-sm text-center mt-3">
             {isRegister() ? "Sudah punya akun? " : "Belum punya akun? "}
-            <a href="#" class="text-[#F80000] hover:text-[#FA4040] font-semibold" onClick={() => setIsRegister(!isRegister())}>
+            <a href="#" class="text-[#F80000] hover:text-[#FA4040] transition-colors duration-300 font-semibold" onClick={() => setIsRegister(!isRegister())}>
               {isRegister() ? "Login" : "Daftar"}
             </a>
           </p>

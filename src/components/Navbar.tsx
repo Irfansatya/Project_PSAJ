@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import Login from "./Auth"; 
 import Notifikasi from "./Notifikasi"; // Import Notifikasi
 
@@ -6,6 +6,35 @@ const Navbar = () => {
   const [showCariApa, setShowCariApa] = createSignal(false);
   const [isLoginOpen, setIsLoginOpen] = createSignal(false); // State untuk modal login
   const [isNotifOpen, setIsNotifOpen] = createSignal(false); // State untuk modal notifikasi
+  const [user, setUser] = createSignal(null);
+  const [profileImage, setProfileImage] = createSignal(
+    localStorage.getItem("profileImage") || "/default-profile.png"
+  );
+  const [showProfileDropdown, setShowProfileDropdown] = createSignal(false); // State untuk dropdown profil
+
+  // Ambil data user dari localStorage saat komponen dimuat
+  onMount(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  });
+
+  // Function untuk menangani login sukses
+  const handleLoginSuccess = (userData) => {
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData); // Update state user
+    setIsLoginOpen(false); // Tutup modal login
+  };
+
+  // Function untuk logout
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // Hapus user dari localStorage
+    localStorage.removeItem("profileImage"); // Hapus gambar profil jika ada
+    setUser(null); // Reset state user
+    setShowProfileDropdown(false); // Tutup dropdown
+    location.reload(); // Refresh halaman
+  };
 
   return (
     <>
@@ -21,40 +50,68 @@ const Navbar = () => {
           {/* Cari Apa Dropdown */}
           <div class="relative">
             <button 
-              class="font-medium flex items-center gap-1"
+              class="font-medium transition-colors duration-300 hover:text-[#F80000] flex items-center gap-1"
               onClick={() => setShowCariApa(!showCariApa())}
             >
               Cari Apa?
-              <span class={`transition-transform duration-[500ms] text-[10px] ${showCariApa() ? 'rotate-[540deg]' : ''}`}>▼</span>
+              <span class={`transition-transform duration-500 text-[10px] ${showCariApa() ? 'rotate-180' : ''}`}>▼</span>
             </button>
-            <div class={`absolute bg-white border rounded-md shadow-md mt-1 w-[130px] transition-all duration-300 ${showCariApa() ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+
+            <div class={`absolute bg-white border rounded-md shadow-md mt-1 w-[160px] transition-all duration-300 ${showCariApa() ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
               <ul>
-                <li class="px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={() => setShowCariApa(false)}>
-                  <a href="/kamar-a" class="block w-full text-left">Tipe Kamar A</a>
+                <li class="flex items-center gap-2 px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={() => setShowCariApa(false)}>
+                  <img src="src/assets/bed.png" alt="kasur" class="w-5 h-5" />
+                  <a href="/kamar-a" class="w-full text-left">Tipe Kamar A</a>
                 </li>
-                <li class="px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={() => setShowCariApa(false)}>
-                  <a href="/kamar-b" class="block w-full text-left">Tipe Kamar B</a>
+                <li class="flex items-center gap-2 px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={() => setShowCariApa(false)}>
+                  <img src="src/assets/bed.png" alt="kasur" class="w-5 h-5" />
+                  <a href="/kamar-b" class="w-full text-left">Tipe Kamar B</a>
                 </li>
-                <li class="px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={() => setShowCariApa(false)}>
-                  <a href="/kamar-c" class="block w-full text-left">Tipe Kamar C</a>
+                <li class="flex items-center gap-2 px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={() => setShowCariApa(false)}>
+                  <img src="src/assets/bed.png" alt="kasur" class="w-5 h-5" />
+                  <a href="/kamar-c" class="w-full text-left">Tipe Kamar C</a>
                 </li>
               </ul>
             </div>
           </div>
 
-          {/* Menu Utama (Tanpa Dropdown) */}
+          {/* Menu Utama */}
           <button class="font-medium transition-colors duration-300 hover:text-[#F80000]" onClick={() => setIsNotifOpen(true)}>
             Notifikasi
           </button>
-          <a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/place/Jagoan+Kos/@-7.4331518,109.245757,17z/data=!3m1!4b1!4m6!3m5!1s0x2e655fa0d36d2cb9:0x31db3864f56d0cb8!8m2!3d-7.4331571!4d109.2483319!16s%2Fg%2F11hzyn8phv?entry=ttu&g_ep=EgoyMDI1MDIxMi4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D" class="font-medium transition-colors duration-300 hover:text-[#F80000]">Lokasi Kos</a>
+          <a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/place/Jagoan+Kos/" class="font-medium transition-colors duration-300 hover:text-[#F80000]">Lokasi Kos</a>
           <a target="_blank" rel="noopener noreferrer" href="https://wa.me/6289620753988" class="font-medium transition-colors duration-300 hover:text-[#F80000]">Hubungi Kami</a>
-          {/* Tombol Login */}
-          <button 
-            class="border-2 border-[#F80000] text-[#F80000] font-medium py-2 px-4 rounded-md transition-colors duration-300 hover:bg-[#f80000] hover:text-white hover:border-[#f80000]"
-            onClick={() => setIsLoginOpen(true)}
-          >
-            Masuk
-          </button>
+          
+          {/* Ganti Tombol Login dengan Gambar Profil Jika Sudah Login */}
+          {user() ? (
+            <div class="relative">
+              <button class="flex items-center gap-2 mr-10 transition-colors duration-300 hover:text-[#F80000]" onClick={() => setShowProfileDropdown(!showProfileDropdown())}>
+                <img src={profileImage()} alt="Profile" class="w-10 h-10 rounded-full border border-gray-300 cursor-pointer" />
+                <span class={`transition-transform duration-500 text-[10px] ${showProfileDropdown() ? 'rotate-180' : ''}`}>▼</span>
+              </button>
+
+              {/* Dropdown Profil */}
+              <div class={`absolute right-0 mt-2 w-[160px] bg-white border border-gray-200 rounded-md shadow-md transition-all duration-300 ${showProfileDropdown() ? "opacity-100 max-h-40" : "opacity-0 max-h-0 overflow-hidden"}`}>
+                <ul class="text-sm">
+                  <li class="flex items-center gap-2 px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={() => setShowProfileDropdown(false)}>
+                    <img src="src/assets/setting-2.png" alt="Pengaturan" class="w-5 h-5" />
+                    <a href="/profile" class="block w-full">Pengaturan</a>
+                  </li>
+                  <li class="flex items-center gap-2 px-4 py-2 transition-colors duration-300 hover:bg-[#FFE8E8] cursor-pointer" onClick={handleLogout}>
+                    <img src="src/assets/logout.png" alt="Keluar" class="w-5 h-5" />
+                    <span>Keluar</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <button 
+              class="border-2 border-[#F80000] text-[#F80000] font-medium py-2 px-4 rounded-md transition-colors duration-300 hover:bg-[#f80000] hover:text-white hover:border-[#f80000]"
+              onClick={() => setIsLoginOpen(true)}
+            >
+              Masuk
+            </button>
+          )}
         </div>
       </nav>
 
@@ -62,7 +119,7 @@ const Navbar = () => {
       <Notifikasi isOpen={isNotifOpen()} onClose={() => setIsNotifOpen(false)} />
 
       {/* Modal Login */}
-      <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLoginSuccess={handleLoginSuccess} />
     </>
   );
 };

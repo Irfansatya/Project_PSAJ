@@ -91,7 +91,7 @@ const Home = () => {
                 <img src={room.image} alt={`Kamar Kos ${room.type}`} class="w-full h-56 object-cover" />
                 <div class="p-4 flex flex-col flex-grow justify-between">
                   <div>
-                    <span class={`text-white text-xs font-medium px-2 py-1 rounded-full ${room.status.includes("penuh") ? 'bg-[#FFE8E8] text-[#f80000]' : 'bg-white border text-gray-400'}`}>
+                    <span class={`text-xs font-medium px-2 py-1 rounded-full ${room.status.includes("penuh") ? 'bg-[#FFE8E8] text-[#f80000]' : 'bg-white border text-gray-400'}`}>
                       {room.status}
                     </span>
                     <h2 class="font-bold text-lg mt-2">Kamar Kos Tipe {room.type} - Kamar {room.roomNumber}</h2>
