@@ -1,20 +1,17 @@
-const express = require('express')
-const app = express()
-const userrouter = require('./router/index')
-const connectDB = require('./config/db')
-const port = 3000
+const express = require('express');
+const connectDB = require('./config/db');
+const router = require('./router/index');
 
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// 🟢 MIDDLEWARE
+app.use(express.json());
 
-app.use(userrouter)
+// 🟢 KONEKSI DATABASE
+connectDB();
 
-connectDB()
+// 🟢 ROUTES
+app.use('/api', router);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+const PORT = 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

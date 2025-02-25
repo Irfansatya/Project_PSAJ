@@ -1,19 +1,37 @@
-const express = require('express')
-const router = express.Router()
-const productController = require('../controllers/productController')
-const orderController = require('../controllers/orderController')
+const express = require('express');
+const { registerUser, loginUser, lihatInformasiPribadi, editInformasiPribadi, lihatKtpCheckout, editKtpCheckout } = require('../controllers/userController');
+const upload = require('../config/multer');
+const User = require('../models/User');
 
-// Route order
-router.get('/order', orderController.index)
-router.get('/order/:id', orderController.show)
-router.post('/order', orderController.store)
-router.delete('/order/:id', orderController.delete)
+const router = express.Router();
 
-// Routes produk
-router.get('/product', productController.index)
-router.get('/product/:id', productController.show)
-router.post('/product', productController.store)
-router.put('/product/:id', productController.update)
-router.delete('/product/:id', productController.delete)
+// 🟢 ROUTE USER
 
-module.exports = router
+router.post('/register', upload.single('fotoKtp'), registerUser);
+
+router.post('/login', loginUser);
+
+router.get('/user/:id/fotoKtp', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user || !user.fotoKtp) {
+            return res.status(404).json({ msg: 'Foto tidak ditemukan' });
+        }
+
+        res.set('Content-Type', 'image/jpeg');
+        res.send(user.fotoKtp);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+});
+
+router.get('/user/:id', lihatInformasiPribadi);
+
+router.put('/user/:id', editInformasiPribadi);
+
+router.get('/user/:id/checkout', lihatKtpCheckout);
+
+router.patch('/user/:id/ktp', upload.single('fotoKtp'), editKtpCheckout);
+
+module.exports = router;
