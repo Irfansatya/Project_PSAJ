@@ -16,6 +16,6 @@ export const routes: RouteDefinition[] = [
   },
   {
     path: '**',
-    component: lazy(() => import('./errors/404')),
+    component: lazy(() => import('./error/404')),
   },
 ];
