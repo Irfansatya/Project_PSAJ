@@ -140,7 +140,7 @@ export default function KosDetail() {
   };
 
   return (
-    <div class="flex mt-10 flex-col md:flex-row gap-6 p-4">
+    <div class="flex mt-20 flex-col md:flex-row gap-6 p-4">
       <Navbar />
       {/* Bagian Kiri (Gambar/Video) */}
       <div class="flex-1 relative">

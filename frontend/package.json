@@ -18,7 +18,10 @@
     "vite-plugin-solid": "^2.11.1"
   },
   "dependencies": {
+    "@amcharts/amcharts5": "^5.11.2",
     "@solidjs/router": "^0.15.1",
-    "solid-js": "^1.9.3"
+    "ag-grid-community": "^33.1.1",
+    "ag-grid-solid": "^31.1.1",
+    "solid-js": "^1.9.5"
   }
 }

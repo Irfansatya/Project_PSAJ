@@ -1,5 +1,6 @@
 const express = require('express');
 const { registerUser, loginUser, lihatInformasiPribadi, editInformasiPribadi, lihatKtpCheckout, editKtpCheckout } = require('../controllers/userController');
+const { editKamar } = require('../controllers/adminController');
 const upload = require('../config/multer');
 const User = require('../models/User');
 
@@ -33,5 +34,9 @@ router.put('/user/:id', editInformasiPribadi);
 router.get('/user/:id/checkout', lihatKtpCheckout);
 
 router.patch('/user/:id/ktp', upload.single('fotoKtp'), editKtpCheckout);
+
+// 🟢 ROUTE ADMIN
+
+
 
 module.exports = router;

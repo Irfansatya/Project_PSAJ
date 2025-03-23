@@ -60,7 +60,7 @@ const Home = () => {
   return (
     <div class="bg-gray-100 min-h-screen p-6">
         <Navbar />
-      <div class="max-w-7xl mt-10 mx-auto">
+      <div class="max-w-7xl mt-20 mx-auto">
         <div class="flex items-start gap-6 mb-6">
           {/* Text Section */}
           <div class="w-1/2">

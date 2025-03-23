@@ -160,7 +160,7 @@ function PengajuanSewa() {
   };
 
   return (
-    <div class="max-w-7xl mx-auto p-4">
+    <div class="max-w-7xl mx-auto p-4 mt-20">
       <Navbar />
       <div class="bg-white p-6 pt-14 rounded-lg shadow-md">
         <Back />

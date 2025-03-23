@@ -69,7 +69,7 @@ const Profile = () => {
   };
 
   return (
-    <div class="p-6 px-10">
+    <div class="p-6 px-10 mt-10">
       <Navbar/>
       <div class="flex justify-between pt-10 items-center mb-6">
         <h1 class="font-bold">Pengaturan</h1>
