@@ -62,7 +62,7 @@ const loginUser = async (req, res) => {
 
         const token = jwt.sign(
             { id: user._id },
-            'secretkey', // Ganti dengan variabel environment untuk keamanan
+            'secretkey',
             { expiresIn: '1h' }
         );
 
