@@ -8,6 +8,7 @@ const Profile = () => {
     email: "",
     telepon: "",
     alamat: "",
+    pekerjaan: "",
     password: "",
     confirmPassword: "",
   });
@@ -19,6 +20,9 @@ const Profile = () => {
   const [isEditing, setIsEditing] = createSignal(false);
   const [isAlertOpen, setIsAlertOpen] = createSignal(false);
   const [isSaveAlertOpen, setIsSaveAlertOpen] = createSignal(false);
+  const [isDropdownOpen, setIsDropdownOpen] = createSignal(false);
+  const pekerjaanList = ["Siswa SMA/SMK", "Mahasiswa", "Bekerja"];
+
   let fileInput!: HTMLInputElement;
 
   let originalProfileData = { ...profileData() }; // Simpan salinan data profil
@@ -101,7 +105,7 @@ const Profile = () => {
             </button>
           </div>
           <div class="space-y-4 p-6">
-            {["nama", "email", "telepon", "alamat"].map((key) => (
+            {["nama", "email", "telepon", "pekerjaan"].map((key) => (
               <div class="flex flex-col">
                 <p class="font-bold">{key.charAt(0).toUpperCase() + key.slice(1)}:</p>
                 <p>{profileData()[key]}</p>
@@ -117,19 +121,63 @@ const Profile = () => {
           </div>
 
           <div class="space-y-5">
-            {[
-              { label: "Nama Lengkap", key: "nama", type: "text" },
-              { label: "Email", key: "email", type: "email" },
-              { label: "Nomor Telepon", key: "telepon", type: "text" },
-              { label: "Alamat", key: "alamat", type: "text" },
-              { label: "Kata Sandi", key: "password", type: "password" },
-              { label: "Konfirmasi Kata Sandi", key: "confirmPassword", type: "password" },
-            ].map((field) => (
-              <div class="grid grid-cols-3 gap-4 items-center">
-                <label class="font-semibold">{field.label}</label>
-                <input type={field.type} class="col-span-2 border border-gray-300 rounded-[8px] p-2 w-full" value={profileData()[field.key]} onInput={(e) => setProfileData({ ...profileData(), [field.key]: e.target.value })} />
-              </div>
-            ))}
+          {[
+  { label: "Nama Lengkap", key: "nama", type: "text" },
+  { label: "Email", key: "email", type: "email" },
+  { label: "Nomor Telepon", key: "telepon", type: "text" },
+  { label: "Alamat", key: "alamat", type: "text" },
+  { label: "Pekerjaan", key: "pekerjaan", type: "dropdown" },
+  { label: "Kata Sandi", key: "password", type: "password" },
+  { label: "Konfirmasi Kata Sandi", key: "confirmPassword", type: "password" },
+].map((field) => (
+  <div class="grid grid-cols-3 gap-4 items-center relative">
+    <label class="font-semibold">{field.label}</label>
+
+    {field.type === "dropdown" ? (
+      <div class="col-span-2 relative">
+        <button
+          type="button"
+          class="w-full border border-gray-300 rounded-[8px] p-2 flex justify-between items-center"
+          onClick={() => setIsDropdownOpen(!isDropdownOpen())}
+        >
+          <span>{profileData().pekerjaan || "Pilih pekerjaan"}</span>
+          <svg
+            class={`w-4 h-4 transform transition-transform duration-300 ${isDropdownOpen() ? "rotate-180" : ""}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class={`absolute mt-2 z-10 w-full bg-white border border-gray-200 rounded-lg shadow transition-all duration-300 overflow-hidden ${isDropdownOpen() ? "max-h-60 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}>
+          {pekerjaanList.map((option) => (
+            <div
+              class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                setProfileData({ ...profileData(), pekerjaan: option });
+                setIsDropdownOpen(false);
+              }}
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <input
+        type={field.type}
+        class="col-span-2 border border-gray-300 rounded-[8px] p-2 w-full"
+        value={profileData()[field.key]}
+        onInput={(e) =>
+          setProfileData({ ...profileData(), [field.key]: e.target.value })
+        }
+      />
+    )}
+  </div>
+))}
           </div>
 
           <div class="flex justify-end mt-6 space-x-4">

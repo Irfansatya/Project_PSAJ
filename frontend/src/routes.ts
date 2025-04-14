@@ -27,8 +27,32 @@ export const routes: RouteDefinition[] = [
     component: lazy(() => import('./pages/pembayaran')),
   },
   {
-    path: '/dashboard',
-    component: lazy(() => import('./pages/Dashboard')),
+    path: '/admindashboard',
+    component: lazy(() => import('./pages/admin/dashboard')),
+  },
+  {
+    path: '/ba',
+    component: lazy(() => import('./pages/bookingproses/ba')),
+  },
+  {
+    path: '/ka',
+    component: lazy(() => import('./pages/pembayaran/ka')),
+  },
+  {
+    path: '/kamar1',
+    component: lazy(() => import('./pages/kamar/a')),
+  },
+  {
+    path: '/kamar2',
+    component: lazy(() => import('./pages/kamar/b')),
+  },
+  { 
+    path: '/kamar3',
+    component: lazy(() => import('./pages/kamar/c')),
+  },
+  {
+    path: '/kamar4',
+    component: lazy(() => import('./pages/kamar/d')),
   },
   {
     path: '**',

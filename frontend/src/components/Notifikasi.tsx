@@ -35,7 +35,7 @@ const Notifikasi = (props) => {
                       <div class="text-left">
                         <p class="font-semibold">{notif.title}</p>
                         <p class="text-gray-700">{notif.message}</p>
-                        <a href="/link-pembayaran" class="text-red-500 hover:underline">Lakukan pembayaran</a>
+                        <a href="/nota" class="text-red-500 hover:underline">Lakukan pembayaran</a>
                       </div>
                     </div>
                     <button

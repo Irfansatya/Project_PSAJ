@@ -13,7 +13,7 @@ const Home = () => {
       image: "src/assets/kamar1.png",
       price: "Rp 1.500.000",
       facilities: ["Kamar Mandi Dalam", "AC", "Kasur", "Lemari"],
-      link: "/pages/kamar1",
+      link: "kamar1",
     },
     {
       id: 2,
@@ -45,16 +45,16 @@ const Home = () => {
       facilities: ["Kamar Mandi Dalam", "Kipas Angin", "Meja Belajar", "CCTV 24 Jam"],
       link: "/pages/kamar4",
     },
-    {
-      id: 5,
-      type: "E",
-      roomNumber: "5",
-      status: "Sisa 1 kamar",
-      image: "src/assets/kamar5.png",
-      price: "Rp 2.000.000",
-      facilities: ["Kamar Mandi Dalam", "AC", "Spring Bed", "Balkon Pribadi"],
-      link: "/pages/kamar5",
-    },
+    // {
+    //   id: 5,
+    //   type: "E",
+    //   roomNumber: "5",
+    //   status: "Sisa 1 kamar",
+    //   image: "src/assets/kamar5.png",
+    //   price: "Rp 2.000.000",
+    //   facilities: ["Kamar Mandi Dalam", "AC", "Spring Bed", "Balkon Pribadi"],
+    //   link: "/pages/kamar5",
+    // },
   ];
 
   return (
@@ -68,7 +68,7 @@ const Home = () => {
             <p class="text-gray-600 mb-4">Kami akan tampilkan tipe kamar yang sesuai dengan pencarianmu.</p>
             {/* Search Bar */}
             <div class="flex w-full border rounded-lg overflow-hidden">
-              <input type="text" placeholder="Kamar mandi dalam.." class="w-full p-3 outline-none" />
+              <input type="text" placeholder="Search..." class="w-full p-3 outline-none" />
               <button class="bg-[#f80000] text-white font-medium px-6 py-3 hover:bg-[#FA4040] transition-colors duration-300">
                 Cari
               </button>
