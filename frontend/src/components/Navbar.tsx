@@ -51,7 +51,7 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = createSignal(false);
   const [user, setUser] = createSignal(null);
   const [profileImage, setProfileImage] = createSignal(
-    localStorage.getItem("profileImage") || "/default-profile.png"
+    localStorage.getItem("profileImage") || "src/assets/image-15.png"
   );
   const [showProfileDropdown, setShowProfileDropdown] = createSignal(false); // State untuk dropdown profil
   const phoneNumber = "6289620753988";

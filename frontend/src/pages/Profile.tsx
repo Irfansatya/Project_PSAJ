@@ -14,7 +14,7 @@ const Profile = () => {
   });
 
   const [profileImage, setProfileImage] = createSignal(
-    localStorage.getItem("profileImage") || "/default-profile.png"
+    localStorage.getItem("profileImage") || "src/assets/image 39.png"
   );
 
   const [isEditing, setIsEditing] = createSignal(false);
