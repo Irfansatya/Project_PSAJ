@@ -23,7 +23,7 @@ const Home = () => {
       image: "src/assets/kamar2.png",
       price: "Rp 1.700.000",
       facilities: ["Kamar Mandi Dalam", "Water Heater", "Meja Belajar", "WiFi"],
-      link: "/pages/kamar2",
+      link: "kamar1",
     },
     {
       id: 3,
@@ -33,7 +33,7 @@ const Home = () => {
       image: "src/assets/kamar3.png",
       price: "Rp 1.800.000",
       facilities: ["Kamar Mandi Dalam", "AC", "TV", "Dapur Mini"],
-      link: "/pages/kamar3",
+      link: "kamar1",
     },
     {
       id: 4,
@@ -43,7 +43,7 @@ const Home = () => {
       image: "src/assets/kamar4.png",
       price: "Rp 1.600.000",
       facilities: ["Kamar Mandi Dalam", "Kipas Angin", "Meja Belajar", "CCTV 24 Jam"],
-      link: "/pages/kamar4",
+      link: "kamar1",
     },
     // {
     //   id: 5,
