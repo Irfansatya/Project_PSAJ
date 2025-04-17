@@ -6,7 +6,7 @@ const Nota: Component = () => {
       <img
       src="src/assets/nota.jpg"
         alt="Nota Pembayaran"
-        class="w-full h-full object-contain"
+        class="w-[700px] object-contain"
       />
     </div>
   );

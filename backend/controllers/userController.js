@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 
 // 🟢 REGISTER USER - POST
 const registerUser = async (req, res) => {
-    const { namaLengkap, email, password, confirmPassword, nomorTelepon, pekerjaan } = req.body;
-    const fotoKtp = req.file ? req.file.buffer : null; // Simpan sebagai Buffer
+    const { namaDepan, namaAkhir, email, password, confirmPassword, nomorTelepon, pekerjaan, alamat } = req.body;
 
-    if (!namaLengkap || !email || !password || !confirmPassword) {
+    // Validasi input
+    if (!namaDepan || !namaAkhir || !email || !password || !confirmPassword) {
         return res.status(400).json({ msg: 'Harap isi semua data yang wajib' });
     }
 
@@ -24,19 +24,23 @@ const registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        // Gabungkan namaDepan dan namaAkhir menjadi namaLengkap
+        const namaLengkap = `${namaDepan} ${namaAkhir}`;
+
         user = new User({
             namaLengkap,
             email,
             password: hashedPassword,
             nomorTelepon: nomorTelepon || null,
             pekerjaan: pekerjaan || null,
-            fotoKtp: fotoKtp
+            alamat: alamat || null,
         });
 
         await user.save();
         res.status(201).json({ msg: 'Registrasi berhasil', user });
 
     } catch (error) {
+        console.error(error);
         res.status(500).json({ msg: 'Server error' });
     }
 };
@@ -76,7 +80,7 @@ const loginUser = async (req, res) => {
 // 🟢 LIHAT INFORMASI PRIBADI - GET
 const lihatInformasiPribadi = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).select('namaLengkap email nomorTelepon pekerjaan');
+        const user = await User.findById(req.params.id).select('namaLengkap email nomorTelepon pekerjaan alamat');
         
         if (!user) {
             return res.status(404).json({ msg: 'User tidak ditemukan' });
@@ -92,7 +96,7 @@ const lihatInformasiPribadi = async (req, res) => {
 // 🟢 EDIT INFORMASI PRIBADI - PUT
 const editInformasiPribadi = async (req, res) => {
     try {
-        const { namaLengkap, email, password, nomorTelepon, pekerjaan } = req.body;
+        const { namaLengkap, email, password, nomorTelepon, pekerjaan, alamat } = req.body;
         
         // Cari user berdasarkan ID
         let user = await User.findById(req.params.id);
@@ -109,6 +113,7 @@ const editInformasiPribadi = async (req, res) => {
         }
         if (nomorTelepon) user.nomorTelepon = nomorTelepon;
         if (pekerjaan) user.pekerjaan = pekerjaan;
+        if (alamat) user.alamat = alamat;
 
         // Simpan perubahan ke database
         await user.save();
@@ -120,57 +125,24 @@ const editInformasiPribadi = async (req, res) => {
     }
 };
 
-// 🟢 LIHAT KTP CHECKOUT - GET
-const lihatKtpCheckout = async (req, res) => {
+// 🟢 GET INISIAL USER BERDASARKAN ID - GET
+const getInisialUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).select('namaLengkap nomorTelepon pekerjaan fotoKtp');
-
+        const user = await User.findById(req.params.id).select('namaLengkap');
+        
         if (!user) {
             return res.status(404).json({ msg: 'User tidak ditemukan' });
         }
 
-        // Jika user ditemukan tetapi tidak memiliki foto KTP
-        if (!user.fotoKtp) {
-            return res.status(404).json({ msg: 'Foto KTP tidak ditemukan' });
-        }
+        // Ambil huruf pertama dari nama depan (diasumsikan nama depan adalah kata pertama dari namaLengkap)
+        const namaDepan = user.namaLengkap.split(' ')[0];
+        const inisial = namaDepan.charAt(0).toUpperCase();
 
-        // Mengembalikan data JSON + foto KTP dalam format base64
-        res.status(200).json({
-            namaLengkap: user.namaLengkap,
-            nomorTelepon: user.nomorTelepon,
-            pekerjaan: user.pekerjaan,
-            fotoKtp: `data:image/jpeg;base64,${user.fotoKtp.toString('base64')}`
-        });
-
+        res.status(200).json({ inisial });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Server error' });
     }
 };
 
-// 🟢 EDIT KTP CHECKOUT - PATCH
-const editKtpCheckout = async (req, res) => {
-    try {
-        // Cek apakah ada file yang diupload
-        if (!req.file) {
-            return res.status(400).json({ msg: 'Harap upload foto KTP baru' });
-        }
-
-        // Cari user berdasarkan ID
-        let user = await User.findById(req.params.id);
-        if (!user) {
-            return res.status(404).json({ msg: 'User tidak ditemukan' });
-        }
-
-        // Update foto KTP dengan file yang diupload
-        user.fotoKtp = req.file.buffer;
-        await user.save();
-
-        res.status(200).json({ msg: 'Foto KTP berhasil diperbarui' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: 'Server error' });
-    }
-};
-
-module.exports = { registerUser, loginUser, lihatInformasiPribadi, editInformasiPribadi, lihatKtpCheckout, editKtpCheckout };
+module.exports = { registerUser, loginUser, lihatInformasiPribadi, editInformasiPribadi, getInisialUser };

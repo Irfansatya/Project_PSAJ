@@ -9,7 +9,7 @@ export default function KosDetail() {
   const [isSticky, setIsSticky] = createSignal(false);
   const [isSaved, setIsSaved] = createSignal(false);
   const [isOpen, setIsOpen] = createSignal(false);
-  const [selected, setSelected] = createSignal("Per 6 Bulan");
+  const [selected, setSelected] = createSignal("Lama Sewa");
   const [showNota, setShowNota] = createSignal(false);
   const [showPopup, setShowPopup] = createSignal(false);
   const [isLoading, setIsLoading] = createSignal(false);
@@ -516,7 +516,7 @@ export default function KosDetail() {
                     : "opacity-0 invisible scale-95"
                 }`}
               >
-                {["Per 6 Bulan", "Per Tahun"].map(
+                {["Lama Sewa","Per 6 Bulan", "Per Tahun"].map(
                   (option) => (
                     <label
                       class="flex items-center gap-2 p-2 hover:bg-gray-100 cursor-pointer"

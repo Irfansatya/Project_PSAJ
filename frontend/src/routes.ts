@@ -28,7 +28,7 @@ export const routes: RouteDefinition[] = [
   },
   {
     path: '/admindashboard',
-    component: lazy(() => import('./pages/admin/dashboard')),
+    component: lazy(() => import('./pages/admin/Dashboard')),
   },
   {
     path: '/ba',

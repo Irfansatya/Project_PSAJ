@@ -143,7 +143,7 @@ const Auth = (props) => {
             class="w-full bg-[#F80000] hover:bg-[#FA4040] transition-colors duration-300 text-white py-2 rounded-md text-lg font-semibold mb-3"
             onClick={isRegister() ? handleRegister : handleLogin}
           >
-            {isRegister() ? "Daftar" : "Confirm"}
+            {isRegister() ? "Daftar" : "Masuk"}
           </button>
 
           <button class="w-full flex items-center justify-center gap-2 border py-2 rounded-md bg-[#EAEFFA]">
